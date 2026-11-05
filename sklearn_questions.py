@@ -133,8 +133,8 @@ class RegistrationSplit(BaseCrossValidator):
             The number of valid splits.
         """
 
-        if X["registration_month"].dtype != "datetime64[ns]":
-                    raise ValueError("registration_month must be a datetime")
+        if not pd.api.types.is_datetime64_any_dtype(X["registration_month"]):
+            raise ValueError("registration_month must be a datetime")
 
         labels = y if y is not None else X["churn"]
         labels = pd.Series(np.asarray(labels), index=X.index)
@@ -175,7 +175,7 @@ class RegistrationSplit(BaseCrossValidator):
         idx_test : ndarray
             The testing set indices for that split.
         """
-        if X["registration_month"].dtype != "datetime64[ns]":
+        if not pd.api.types.is_datetime64_any_dtype(X["registration_month"]):
             raise ValueError("registration_month must be a datetime")
 
         labels = pd.Series(np.asarray(y), index=X.index)
